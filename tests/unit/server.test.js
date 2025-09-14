@@ -15,11 +15,11 @@ describe('Health Check API', () => {
 })
 
 describe('API Documentation', () => {
-  test('GET /docs should be accessible in development', async () => {
+  test('GET /docs should redirect in development', async () => {
     if (process.env.NODE_ENV !== 'production') {
       const response = await request(app)
         .get('/docs')
-        .expect(200)
+        .expect(301) // Swagger redirects to /docs/
     }
   })
 })

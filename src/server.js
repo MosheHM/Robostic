@@ -131,6 +131,11 @@ app.use('*', (req, res) => {
 
 // Database connection
 const connectDB = async () => {
+  if (process.env.MONGODB_DISABLED === 'true' || process.env.DATABASE_URL === 'skip') {
+    logger.info('MongoDB connection skipped for testing')
+    return
+  }
+
   try {
     const conn = await mongoose.connect(process.env.DATABASE_URL || 'mongodb://localhost:27017/robostic', {
       useNewUrlParser: true,
@@ -139,7 +144,9 @@ const connectDB = async () => {
     logger.info(`MongoDB Connected: ${conn.connection.host}`)
   } catch (error) {
     logger.error('Database connection failed:', error)
-    process.exit(1)
+    if (process.env.NODE_ENV !== 'test') {
+      process.exit(1)
+    }
   }
 }
 

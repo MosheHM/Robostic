@@ -350,9 +350,15 @@ router.post('/:id/move', auth, async (req, res, next) => {
       await robot.save()
     }
 
-    // Emit command via Socket.IO
-    const { io } = require('../server')
-    io.to(`robot-${robot._id}`).emit('movement-command', command)
+    // Emit command via Socket.IO (if available)
+    try {
+      const { io } = require('../server')
+      if (io) {
+        io.to(`robot-${robot._id}`).emit('movement-command', command)
+      }
+    } catch (err) {
+      logger.warn('Socket.IO not available for real-time command transmission')
+    }
 
     logger.info(`Movement command sent to robot ${robot.name}: ${JSON.stringify(command)}`)
 
@@ -447,9 +453,15 @@ router.post('/:id/gripper', auth, async (req, res, next) => {
       }
     }
 
-    // Emit command via Socket.IO
-    const { io } = require('../server')
-    io.to(`robot-${robot._id}`).emit('gripper-command', command)
+    // Emit command via Socket.IO (if available)
+    try {
+      const { io } = require('../server')
+      if (io) {
+        io.to(`robot-${robot._id}`).emit('gripper-command', command)
+      }
+    } catch (err) {
+      logger.warn('Socket.IO not available for real-time command transmission')
+    }
 
     logger.info(`Gripper command sent to robot ${robot.name}: ${action}`)
 
