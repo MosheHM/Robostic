@@ -1,5 +1,5 @@
 const express = require('express')
-const { auth, authorize } = require('../middleware/auth')
+const { auth } = require('../middleware/auth')
 const Robot = require('../models/Robot')
 const logger = require('../utils/logger')
 
@@ -42,7 +42,7 @@ const router = express.Router()
 router.get('/', auth, async (req, res, next) => {
   try {
     const { status, industry, page = 1, limit = 20 } = req.query
-    
+
     const filter = { owner: req.user.id }
     if (status) filter.status = status
     if (industry) filter['configuration.industry'] = industry

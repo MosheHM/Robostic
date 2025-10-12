@@ -196,15 +196,15 @@ router.post('/generate-plan', auth, async (req, res, next) => {
 
 // Helper functions (would be replaced with actual AI service calls)
 
-async function processNaturalLanguageCommand(text, context) {
+async function processNaturalLanguageCommand (text, context) {
   // Simulate LLM processing
   const commandPatterns = {
     'pick up': { action: 'pick_and_place', target: extractTarget(text) },
     'move to': { action: 'move', destination: extractDestination(text) },
-    'grab': { action: 'grasp', target: extractTarget(text) },
-    'release': { action: 'release' },
-    'inspect': { action: 'inspect', target: extractTarget(text) },
-    'scan': { action: 'scan', area: extractArea(text) }
+    grab: { action: 'grasp', target: extractTarget(text) },
+    release: { action: 'release' },
+    inspect: { action: 'inspect', target: extractTarget(text) },
+    scan: { action: 'scan', area: extractArea(text) }
   }
 
   let bestMatch = null
@@ -234,7 +234,7 @@ async function processNaturalLanguageCommand(text, context) {
   }
 }
 
-async function analyzeScene(imageData, context) {
+async function analyzeScene (imageData, context) {
   // Simulate computer vision analysis
   const objects = [
     { type: 'tool', name: 'hammer', position: { x: 150, y: 200 }, confidence: 0.95 },
@@ -264,7 +264,7 @@ async function analyzeScene(imageData, context) {
   }
 }
 
-async function generateTaskPlan(task, capabilities, environment, constraints) {
+async function generateTaskPlan (task, capabilities, environment, constraints) {
   // Simulate AI planning
   const steps = [
     {
@@ -309,16 +309,16 @@ async function generateTaskPlan(task, capabilities, environment, constraints) {
   }
 }
 
-function extractTarget(text) {
+function extractTarget (text) {
   const words = text.toLowerCase().split(' ')
   const commonTargets = ['tool', 'block', 'component', 'item', 'object']
-  
+
   for (const target of commonTargets) {
     if (words.includes(target)) {
       return target
     }
   }
-  
+
   // Look for color + object patterns
   const colors = ['red', 'blue', 'green', 'yellow', 'black', 'white']
   for (const color of colors) {
@@ -327,37 +327,37 @@ function extractTarget(text) {
       return `${color}_${words[colorIndex + 1]}`
     }
   }
-  
+
   return 'unknown_object'
 }
 
-function extractDestination(text) {
+function extractDestination (text) {
   const words = text.toLowerCase().split(' ')
   const destinations = ['table', 'box', 'container', 'station', 'position']
-  
+
   for (const dest of destinations) {
     if (words.includes(dest)) {
       return dest
     }
   }
-  
+
   return 'target_location'
 }
 
-function extractArea(text) {
+function extractArea (text) {
   const words = text.toLowerCase().split(' ')
   const areas = ['workspace', 'area', 'zone', 'section', 'region']
-  
+
   for (const area of areas) {
     if (words.includes(area)) {
       return area
     }
   }
-  
+
   return 'work_area'
 }
 
-function generateExecutionSteps(command) {
+function generateExecutionSteps (command) {
   const baseSteps = [
     'Parse command parameters',
     'Validate safety conditions',
@@ -375,7 +375,7 @@ function generateExecutionSteps(command) {
         'Place at destination',
         'Verify completion'
       ]
-    
+
     case 'move':
       return [
         ...baseSteps,
@@ -383,7 +383,7 @@ function generateExecutionSteps(command) {
         'Execute movement',
         'Verify position'
       ]
-    
+
     case 'inspect':
       return [
         ...baseSteps,
@@ -392,7 +392,7 @@ function generateExecutionSteps(command) {
         'Analyze visual data',
         'Generate report'
       ]
-    
+
     default:
       return baseSteps
   }
