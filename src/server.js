@@ -154,7 +154,7 @@ const connectDB = async () => {
 const PORT = process.env.PORT || 3000
 const startServer = async () => {
   await connectDB()
-  
+
   server.listen(PORT, () => {
     logger.info(`🚀 Robostic server running on port ${PORT}`)
     logger.info(`📚 API Documentation: http://localhost:${PORT}/docs`)
