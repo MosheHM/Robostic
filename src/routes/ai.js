@@ -1,5 +1,6 @@
 const express = require('express')
 const { auth } = require('../middleware/auth')
+const { validate, schemas } = require('../middleware/validation')
 const logger = require('../utils/logger')
 
 const router = express.Router()
@@ -48,16 +49,9 @@ const router = express.Router()
  *       401:
  *         description: Unauthorized
  */
-router.post('/command', auth, async (req, res, next) => {
+router.post('/command', auth, validate(schemas.aiCommand), async (req, res, next) => {
   try {
     const { text, context = {} } = req.body
-
-    if (!text || text.trim().length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Command text is required'
-      })
-    }
 
     // Simulate AI processing (would integrate with OpenAI/Claude in production)
     const processedCommand = await processNaturalLanguageCommand(text, context)
@@ -113,16 +107,9 @@ router.post('/command', auth, async (req, res, next) => {
  *       401:
  *         description: Unauthorized
  */
-router.post('/analyze-scene', auth, async (req, res, next) => {
+router.post('/analyze-scene', auth, validate(schemas.sceneAnalysis), async (req, res, next) => {
   try {
     const { image, context = {} } = req.body
-
-    if (!image) {
-      return res.status(400).json({
-        success: false,
-        message: 'Image data is required'
-      })
-    }
 
     // Simulate AI scene analysis
     const analysis = await analyzeScene(image, context)
@@ -172,16 +159,9 @@ router.post('/analyze-scene', auth, async (req, res, next) => {
  *       401:
  *         description: Unauthorized
  */
-router.post('/generate-plan', auth, async (req, res, next) => {
+router.post('/generate-plan', auth, validate(schemas.taskPlan), async (req, res, next) => {
   try {
     const { task, robotCapabilities = [], environment = {}, constraints = {} } = req.body
-
-    if (!task) {
-      return res.status(400).json({
-        success: false,
-        message: 'Task description is required'
-      })
-    }
 
     const plan = await generateTaskPlan(task, robotCapabilities, environment, constraints)
 

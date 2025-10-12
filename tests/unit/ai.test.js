@@ -47,7 +47,9 @@ describe('AI Services API', () => {
         .expect(400)
 
       expect(response.body).toHaveProperty('success', false)
-      expect(response.body).toHaveProperty('message', 'Command text is required')
+      expect(response.body).toHaveProperty('message', 'Validation failed')
+      expect(response.body).toHaveProperty('errors')
+      expect(Array.isArray(response.body.errors)).toBe(true)
     })
 
     test('should return 400 for missing command text', async () => {
@@ -60,7 +62,9 @@ describe('AI Services API', () => {
         .expect(400)
 
       expect(response.body).toHaveProperty('success', false)
-      expect(response.body).toHaveProperty('message', 'Command text is required')
+      expect(response.body).toHaveProperty('message', 'Validation failed')
+      expect(response.body).toHaveProperty('errors')
+      expect(Array.isArray(response.body.errors)).toBe(true)
     })
 
     test('should handle move commands', async () => {
@@ -149,7 +153,9 @@ describe('AI Services API', () => {
         .expect(400)
 
       expect(response.body).toHaveProperty('success', false)
-      expect(response.body).toHaveProperty('message', 'Image data is required')
+      expect(response.body).toHaveProperty('message', 'Validation failed')
+      expect(response.body).toHaveProperty('errors')
+      expect(Array.isArray(response.body.errors)).toBe(true)
     })
   })
 
@@ -189,7 +195,9 @@ describe('AI Services API', () => {
         .expect(400)
 
       expect(response.body).toHaveProperty('success', false)
-      expect(response.body).toHaveProperty('message', 'Task description is required')
+      expect(response.body).toHaveProperty('message', 'Validation failed')
+      expect(response.body).toHaveProperty('errors')
+      expect(Array.isArray(response.body.errors)).toBe(true)
     })
 
     test('should handle task with minimal parameters', async () => {
